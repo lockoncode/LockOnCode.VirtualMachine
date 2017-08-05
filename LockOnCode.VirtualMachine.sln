@@ -3,7 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LockOnCode.VirtualMachine.Devices", "LockOnCode.VirtualMachine.Devices\LockOnCode.VirtualMachine.Devices.csproj", "{97CAFE69-115E-4F01-820F-9E1C9E8F8E9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LockOnCode.VirtualMachine.Devices.IntegrationTests", "LockOnCode.Devices.IntegrationTests\LockOnCode.VirtualMachine.Devices.IntegrationTests.csproj", "{897ED86B-2736-4EFE-AC49-A584DCBE481E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{A8975614-467C-4AED-B23E-6D281855A9E9}"
+	ProjectSection(SolutionItems) = preProject
+		build.cake = build.cake
+		build.ps1 = build.ps1
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LockOnCode.VirtualMachine.Devices", "LockOnCode.VirtualMachine.Devices\LockOnCode.VirtualMachine.Devices.csproj", "{66ED4C01-24A3-45A6-B324-ECF2C0CF1735}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LockOnCode.VirtualMachine.Devices.Tests", "LockOnCode.VirtualMachine.Devices.Tests\LockOnCode.VirtualMachine.Devices.Tests.csproj", "{5F06D179-83AC-4C3B-8773-C51EAD42C518}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +21,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{97CAFE69-115E-4F01-820F-9E1C9E8F8E9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{97CAFE69-115E-4F01-820F-9E1C9E8F8E9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{97CAFE69-115E-4F01-820F-9E1C9E8F8E9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{97CAFE69-115E-4F01-820F-9E1C9E8F8E9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{897ED86B-2736-4EFE-AC49-A584DCBE481E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{897ED86B-2736-4EFE-AC49-A584DCBE481E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{897ED86B-2736-4EFE-AC49-A584DCBE481E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{897ED86B-2736-4EFE-AC49-A584DCBE481E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66ED4C01-24A3-45A6-B324-ECF2C0CF1735}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66ED4C01-24A3-45A6-B324-ECF2C0CF1735}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66ED4C01-24A3-45A6-B324-ECF2C0CF1735}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66ED4C01-24A3-45A6-B324-ECF2C0CF1735}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F06D179-83AC-4C3B-8773-C51EAD42C518}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F06D179-83AC-4C3B-8773-C51EAD42C518}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F06D179-83AC-4C3B-8773-C51EAD42C518}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F06D179-83AC-4C3B-8773-C51EAD42C518}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
