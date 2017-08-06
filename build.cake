@@ -48,7 +48,10 @@ Task("Build")
 		var testSettings = new DotNetCoreTestSettings
 		{
 			NoBuild = true,
-			DiagnosticOutput = true
+			DiagnosticOutput = true,
+            Configuration = "Debug",
+            Logger = "trx;LogFileName=Build\unit_tests.xml" 
+
 		};
 		
         var directoryToScanForTests = "./"+outputDir+"/*Tests.csproj";
