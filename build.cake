@@ -51,7 +51,10 @@ Task("Build")
 			DiagnosticOutput = true
 		};
 		
-		var testProjects = GetFiles("./**/*Tests.csproj");
+        var directoryToScanForTests = "./"+outputDir+"/*Tests.csproj";
+        Information("Scanning directory for tests: " + directoryToScanForTests);
+        
+		var testProjects = GetFiles(directoryToScanForTests);
 		foreach(var testProject in testProjects)
 		{
 			Information("Found Test Project: " + testProject);
