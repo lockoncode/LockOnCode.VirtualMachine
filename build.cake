@@ -9,7 +9,6 @@ var projJson = "";     // Path to the project.json
 var projDir = "";      //  Project Directory
 var solutionFile = "LockOnCode.VirtualMachine.sln"; // Solution file if needed
 var outputDir = Directory("Build") + Directory(configuration);  // The output directory the build artifacts saved too
-var testProject = "./LockOnCode.VirtualMachine.Devices.Tests/LockOnCode.VirtualMachine.Devices.Tests.csproj";
 
 var buildSettings = new DotNetCoreBuildSettings
      {
