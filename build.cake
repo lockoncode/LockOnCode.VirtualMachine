@@ -1,14 +1,16 @@
 #addin "Cake.Incubator"
-#tool "xunit.runner.console"
+#tool "nuget:?package=xunit.runner.console"
+#tool "nuget:?package=ReportUnit"
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 
-var binDir = "";       // Destination Binary File Directory name i.e. bin
-var projJson = "";     // Path to the project.json
+     // Path to the project.json
 var projDir = "";      //  Project Directory
 var solutionFile = "LockOnCode.VirtualMachine.sln"; // Solution file if needed
 var outputDir = Directory("Build") + Directory(configuration);  // The output directory the build artifacts saved too
+var report = outputDir;//+Directory("reports");
+var xunitReport = report;// + Directory("xunit");
 
 var buildSettings = new DotNetCoreBuildSettings
      {
@@ -53,20 +55,35 @@ Task("Build")
             Logger = "trx" 
 
 		};
-		
-        var directoryToScanForTests = "./"+outputDir+"/*Tests.csproj";
+
+        var xunitSettings = new XUnit2Settings
+        {
+           Parallelism = ParallelismOption.All,
+            
+            NoAppDomain = true,
+            OutputDirectory = xunitReport,
+            //XmlReport = true,
+            NUnitReport = true
+        };
+		Information(Environment.CurrentDirectory);
+        var directoryToScanForTests = "./**/*Tests.csproj";
         Information("Scanning directory for tests: " + directoryToScanForTests);
         
 		var testProjects = GetFiles(directoryToScanForTests);
 		foreach(var testProject in testProjects)
 		{
 			Information("Found Test Project: " + testProject);
+            //XUnit2(testProject.ToString(), xunitSettings);
+            
 			DotNetCoreTest(testProject.ToString(), testSettings);
 		}
 		//XUnit2(testAssemblies);*/
 		
 		//DotNetCoreTest(testProject);
-		});
+		}).Finally(() => 
+        {
+            //ReportUnit(xunitReport);
+        });
  
 Task("Package")
     .IsDependentOn("Build")
@@ -77,7 +94,7 @@ Task("Package")
             NoBuild = true
         };
  
-         DotNetCorePack(projJson, packSettings);
+         //DotNetCorePack(projJson, packSettings);
  
     });
  
