@@ -50,7 +50,7 @@ Task("Build")
 			NoBuild = true,
 			DiagnosticOutput = true,
             Configuration = "Debug",
-            Logger = "trx;LogFileName=Build\\unit_tests.xml" 
+            Logger = "trx" 
 
 		};
 		
