@@ -37,7 +37,7 @@ Task("Build")
     .IsDependentOn("Clean")
     .IsDependentOn("Restore")
     .Does(() => {
-	   
+	    
 		DotNetCoreBuild(solutionFile, buildSettings);
     
     });
