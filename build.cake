@@ -52,8 +52,8 @@ Task("Build")
 			NoBuild = true,
 			DiagnosticOutput = true,
             Configuration = "Debug",
-            Logger = "trx" 
-
+            Logger = "trx", 
+            OutputDirectory = outputDir
 		};
 
         var xunitSettings = new XUnit2Settings
@@ -61,9 +61,10 @@ Task("Build")
            Parallelism = ParallelismOption.All,
             
             NoAppDomain = true,
-            OutputDirectory = xunitReport,
+            OutputDirectory = outputDir,
             //XmlReport = true,
-            NUnitReport = true
+            NUnitReport = true, 
+            
         };
 		Information(Environment.CurrentDirectory);
         var directoryToScanForTests = "./**/*Tests.csproj";
