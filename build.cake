@@ -25,6 +25,12 @@ Task("Clean")
         {
                 DeleteDirectory(outputDir, recursive:true);
         }
+
+        //Clean test output
+        var directoryToScanForTestResults = "./**/*.prx";
+        var testResultFiles = GetFiles(directoryToScanForTestResults);
+        DeleteFiles(testResultFiles);
+        
     });
  
 Task("Restore")
