@@ -27,8 +27,13 @@ Task("Clean")
         }
 
         //Clean test output
-        var directoryToScanForTestResults = "./**/*.prx";
+        var directoryToScanForTestResults = "./**/TestResults/*.trx";
+        
         var testResultFiles = GetFiles(directoryToScanForTestResults);
+        foreach(var file in testResultFiles)
+        {
+            Information("Deleting test result" + file.ToString());
+        }
         DeleteFiles(testResultFiles);
         
     });
