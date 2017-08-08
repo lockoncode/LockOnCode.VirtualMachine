@@ -1,6 +1,5 @@
 #addin "Cake.Incubator"
 #tool "nuget:?package=xunit.runner.console"
-#tool "nuget:?package=ReportUnit"
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
@@ -9,8 +8,8 @@ var configuration = Argument("configuration", "Release");
 var projDir = "";      //  Project Directory
 var solutionFile = "LockOnCode.VirtualMachine.sln"; // Solution file if needed
 var outputDir = Directory("Build") + Directory(configuration);  // The output directory the build artifacts saved too
-var report = outputDir;//+Directory("reports");
-var xunitReport = report;// + Directory("xunit");
+var report = outputDir;
+var xunitReport = report;
 
 var buildSettings = new DotNetCoreBuildSettings
      {
@@ -21,13 +20,12 @@ var buildSettings = new DotNetCoreBuildSettings
 
 
 Task("Clean")
-    .Does(() =>
-{
-    if (DirectoryExists(outputDir))
+    .Does(() => {
+        if (DirectoryExists(outputDir))
         {
-            DeleteDirectory(outputDir, recursive:true);
+                DeleteDirectory(outputDir, recursive:true);
         }
-});
+    });
  
 Task("Restore")
     .Does(() => {
@@ -56,16 +54,7 @@ Task("Build")
             OutputDirectory = outputDir
 		};
 
-        var xunitSettings = new XUnit2Settings
-        {
-           Parallelism = ParallelismOption.All,
-            
-            NoAppDomain = true,
-            OutputDirectory = outputDir,
-            //XmlReport = true,
-            NUnitReport = true, 
-            
-        };
+        
 		Information(Environment.CurrentDirectory);
         var directoryToScanForTests = "./**/*Tests.csproj";
         Information("Scanning directory for tests: " + directoryToScanForTests);
@@ -74,17 +63,11 @@ Task("Build")
 		foreach(var testProject in testProjects)
 		{
 			Information("Found Test Project: " + testProject);
-            //XUnit2(testProject.ToString(), xunitSettings);
             
 			DotNetCoreTest(testProject.ToString(), testSettings);
 		}
-		//XUnit2(testAssemblies);*/
 		
-		//DotNetCoreTest(testProject);
-		}).Finally(() => 
-        {
-            //ReportUnit(xunitReport);
-        });
+	});
  
 Task("Package")
     .IsDependentOn("Build")
