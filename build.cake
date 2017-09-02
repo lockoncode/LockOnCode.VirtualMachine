@@ -13,7 +13,7 @@ var xunitReport = report;
 
 var buildSettings = new DotNetCoreBuildSettings
      {
-         Framework = "netcoreapp1.1",
+         Framework = "netcoreapp2.0",
          Configuration = "Release",
          OutputDirectory = outputDir
      };
