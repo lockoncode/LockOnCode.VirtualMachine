@@ -38,7 +38,7 @@ namespace LockOnCode.VirtualMachine.Devices.Tests.CPU
             var source = new List<IOperation> { OpCodes.NOP, OpCodes.NOP, OpCodes.Halt };
             var cpu = BuildCpu(source);
             RunProgram(cpu, source);
-            cpu.PC.ShouldBe(2UL * ((ulong)source.Count));
+            cpu.ProgramCounter.ShouldBe(2UL * ((ulong)source.Count));
         }
 
         private static void RunProgram(Cpu cpu, ICollection program)
@@ -55,7 +55,7 @@ namespace LockOnCode.VirtualMachine.Devices.Tests.CPU
             cpu.Halt += (s, d) => halted = true;
             cpu.Tick();
             cpu.Tick();
-            cpu.PC.ShouldBe(12UL);
+            cpu.ProgramCounter.ShouldBe(12UL);
 
             halted.ShouldBeTrue();
         }
@@ -67,7 +67,7 @@ namespace LockOnCode.VirtualMachine.Devices.Tests.CPU
             var cpu = BuildCpu(source);
             cpu.Tick();
             Vector.AsVectorInt32(cpu.Registers[1]).ShouldBe(Vector<int>.One);
-            cpu.PC.ShouldBe(37UL);
+            cpu.ProgramCounter.ShouldBe(37UL);
         }
 
         [Fact]

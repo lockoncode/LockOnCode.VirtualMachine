@@ -9,18 +9,18 @@ namespace LockOnCode.VirtualMachine.Devices.CPU
     public class Cpu
     {
         public SystemMemory Memory { get; }
-        private HashSet<OpCode> NoOperandInstructions = new HashSet<OpCode> { OpCode.Halt, OpCode.NOP };
-        private HashSet<OpCode> TwoOperandInstructions = new HashSet<OpCode> { OpCode.Move };
+        private readonly HashSet<OpCode> NoOperandInstructions = new HashSet<OpCode> { OpCode.Halt, OpCode.NOP };
+        private readonly HashSet<OpCode> TwoOperandInstructions = new HashSet<OpCode> { OpCode.Move };
 
         public Cpu(SystemMemory memory)
 
         {
-            PC = 0;
+            ProgramCounter = 0;
             this.Memory = memory;
             this.Registers = new Vector<byte>[255];
         }
 
-        public ulong PC { get; private set; }
+        public ulong ProgramCounter { get; private set; }
 
         public Vector<byte>[] Registers;
 
@@ -28,16 +28,16 @@ namespace LockOnCode.VirtualMachine.Devices.CPU
 
         public void Tick()
         {
-            var instructionStart = this.Memory.RetrieveAddress(PC, 4);
+            var instructionStart = this.Memory.RetrieveAddress(ProgramCounter, 4);
             var instruction = instructionStart.NonPortableCast<byte, OpCode>()[0];
             if (NoOperandInstructions.Contains(instruction))
             {
-                PC += HandleZeroOperandInstruction(instruction);
+                ProgramCounter += HandleZeroOperandInstruction(instruction);
             }
             else if (TwoOperandInstructions.Contains(instruction))
             {
                 var instructionSize = HandleTwoOperandInstruction(instructionStart, instruction);
-                PC += instructionSize;
+                ProgramCounter += instructionSize;
             }
             else
             {
@@ -78,7 +78,7 @@ namespace LockOnCode.VirtualMachine.Devices.CPU
             var firstOperandType = (byte)(instructionStart[3] & 0x0F);
             var secondOperandType = (byte)((instructionStart[3] & 0xF0) >> 4);
             var firstOperand = RetrieveSourceValue(instructionDataType, firstOperandType, 4);
-            Span<byte> destinationAddress = this.Memory.RetrieveAddress(PC + firstOperand.Size + 4);
+            var destinationAddress = this.Memory.RetrieveAddress(ProgramCounter + firstOperand.Size + 4);
             var secondOperandSize = WriteToDestintion(secondOperandType, destinationAddress, firstOperand.Value);
             return (byte)(4 + firstOperand.Size + secondOperandSize);
         }
@@ -91,7 +91,7 @@ namespace LockOnCode.VirtualMachine.Devices.CPU
                     var zeroArray = new byte[Vector<byte>.Count];
                     Vector<byte>.Zero.CopyTo(zeroArray);
                     value.CopyTo(zeroArray);
-                    Vector<byte> registerValue = new Vector<byte>(zeroArray);
+                    var registerValue = new Vector<byte>(zeroArray);
                     Registers[span[0]] = registerValue;
                     return 1;
 
@@ -111,18 +111,18 @@ namespace LockOnCode.VirtualMachine.Devices.CPU
             switch ((OperandTypes)operandType)
             {
                 case OperandTypes.Register:
-                    var registerSpan = this.Memory.RetrieveAddress(PC + currentOffset);
+                    var registerSpan = this.Memory.RetrieveAddress(ProgramCounter + currentOffset);
                     var registerAsArray = new byte[Vector<byte>.Count];
                     this.Registers[registerSpan[0]].CopyTo(registerAsArray);
                     return (1, new Span<byte>(registerAsArray).Slice(0, size));
 
                 case OperandTypes.VectorConstant:
-                    Span<byte> sliced = this.Memory.RetrieveAddress(this.PC + currentOffset);
+                    Span<byte> sliced = this.Memory.RetrieveAddress(this.ProgramCounter + currentOffset);
 
                     return (size, sliced);
 
                 case OperandTypes.ScalarConstant:
-                    Span<byte> scalarSlice = this.Memory.RetrieveAddress(this.PC + currentOffset, size);
+                    Span<byte> scalarSlice = this.Memory.RetrieveAddress(this.ProgramCounter + currentOffset, size);
 
                     return (size, scalarSlice);
 
@@ -137,7 +137,7 @@ namespace LockOnCode.VirtualMachine.Devices.CPU
 
         private Span<byte> ValueAtAddress(ulong operandInstructionOffset, byte size)
         {
-            var address = this.Memory.RetrieveAddress(this.PC + operandInstructionOffset).NonPortableCast<byte, ulong>()[0];
+            var address = this.Memory.RetrieveAddress(this.ProgramCounter + operandInstructionOffset).NonPortableCast<byte, ulong>()[0];
             var value = this.Memory.RetrieveAddress(address, size);
             return value;
         }
@@ -183,8 +183,8 @@ namespace LockOnCode.VirtualMachine.Devices.CPU
 
         private void Interupt()
         {
-            //Load PC from interrupt table
-            PC = this.Memory.RetrieveAddress(2).NonPortableCast<byte, ushort>()[0];
+            //Load ProgramCounter from interrupt table
+            ProgramCounter = this.Memory.RetrieveAddress(2).NonPortableCast<byte, ushort>()[0];
         }
 
         protected virtual void OnHalt(EventArgs e)
