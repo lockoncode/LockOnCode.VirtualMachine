@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LockOnCode.VirtualMachine.Devices.IntegrationTests", "LockOnCode.VirtualMachine.Devices.IntegrationTests\LockOnCode.VirtualMachine.Devices.IntegrationTests.csproj", "{897ED86B-2736-4EFE-AC49-A584DCBE481E}"
 EndProject
@@ -14,6 +14,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LockOnCode.VirtualMachine.Devices", "LockOnCode.VirtualMachine.Devices\LockOnCode.VirtualMachine.Devices.csproj", "{66ED4C01-24A3-45A6-B324-ECF2C0CF1735}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LockOnCode.VirtualMachine.Devices.Tests", "LockOnCode.VirtualMachine.Devices.Tests\LockOnCode.VirtualMachine.Devices.Tests.csproj", "{5F06D179-83AC-4C3B-8773-C51EAD42C518}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrontEndTest", "FrontEndTest\FrontEndTest.csproj", "{20E20969-0F96-4DED-AE08-34CD84C56BE4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LockOnCode.VirtualMachine.Assembler", "LockOnCode.VirtualMachine.Assembler\LockOnCode.VirtualMachine.Assembler.csproj", "{BAC84F8D-7DFA-4000-B3D5-887C60652F45}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,8 +37,19 @@ Global
 		{5F06D179-83AC-4C3B-8773-C51EAD42C518}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F06D179-83AC-4C3B-8773-C51EAD42C518}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F06D179-83AC-4C3B-8773-C51EAD42C518}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20E20969-0F96-4DED-AE08-34CD84C56BE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20E20969-0F96-4DED-AE08-34CD84C56BE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20E20969-0F96-4DED-AE08-34CD84C56BE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20E20969-0F96-4DED-AE08-34CD84C56BE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAC84F8D-7DFA-4000-B3D5-887C60652F45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAC84F8D-7DFA-4000-B3D5-887C60652F45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAC84F8D-7DFA-4000-B3D5-887C60652F45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAC84F8D-7DFA-4000-B3D5-887C60652F45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C9830191-68D3-4BE5-A851-F546A28C4DE5}
 	EndGlobalSection
 EndGlobal
