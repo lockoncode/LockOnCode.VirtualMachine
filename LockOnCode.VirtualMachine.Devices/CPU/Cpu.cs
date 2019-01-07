@@ -11,6 +11,7 @@ namespace LockOnCode.VirtualMachine.Devices.CPU
         public SystemMemory Memory { get; }
         private readonly HashSet<OpCode> NoOperandInstructions = new HashSet<OpCode> { OpCode.Halt, OpCode.NOP };
         private readonly HashSet<OpCode> TwoOperandInstructions = new HashSet<OpCode> { OpCode.Move };
+        private readonly HashSet<OpCode> ThreeOperandInstructions = new HashSet<OpCode> { OpCode.Add };
 
         public Cpu(SystemMemory memory)
 
@@ -37,6 +38,11 @@ namespace LockOnCode.VirtualMachine.Devices.CPU
             else if (TwoOperandInstructions.Contains(instruction))
             {
                 var instructionSize = HandleTwoOperandInstruction(instructionStart, instruction);
+                ProgramCounter += instructionSize;
+            }
+            else if (ThreeOperandInstructions.Contains(instruction))
+            {
+                var instructionSize = HandleThreeOperandInstruction(instructionStart, instruction);
                 ProgramCounter += instructionSize;
             }
             else
@@ -72,6 +78,18 @@ namespace LockOnCode.VirtualMachine.Devices.CPU
             }
         }
 
+        private byte HandleThreeOperandInstruction(Span<byte> instructionStart, OpCode instruction)
+        {
+            switch (instruction)
+            {
+                case OpCode.Add:
+                    return HandleAdd(instructionStart);
+
+                default:
+                    return 0;
+            }
+        }
+
         private byte HandleMove(Span<byte> instructionStart)
         {
             var instructionDataType = instructionStart[2];
@@ -82,6 +100,23 @@ namespace LockOnCode.VirtualMachine.Devices.CPU
             var secondOperandSize = WriteToDestintion(secondOperandType, destinationAddress, firstOperand.Value);
             return (byte)(4 + firstOperand.Size + secondOperandSize);
         }
+
+        private byte HandleAdd(Span<byte> instructionStart)
+        {
+            var instructionDataType = instructionStart[2];
+            var destinationOperandType = (byte)(instructionStart[3] & 0x0F);
+            var source1OperandType = (byte)((instructionStart[3] & 0xF0) >> 4);
+            var source2OperandType = (byte)(this.Memory.RetrieveAddress(ProgramCounter + 5)[0] & 0x0F);
+            var firstOperand = RetrieveSourceValue(instructionDataType, source1OperandType, 5);
+            var secondOperand = RetrieveSourceValue(instructionDataType, source2OperandType, 5);
+            var destinationAddress = this.Memory.RetrieveAddress(ProgramCounter + firstOperand.Size + secondOperand.Size + 4);
+
+            var destinationOperandSize = WriteToDestintion(source1OperandType, destinationAddress, firstOperand.Value);
+            return (byte)(4 + firstOperand.Size + secondOperand.Size + destinationOperandSize);
+        }
+
+        private void AddOperands<>()
+
 
         private byte WriteToDestintion(byte operandType, Span<byte> span, Span<byte> value)
         {

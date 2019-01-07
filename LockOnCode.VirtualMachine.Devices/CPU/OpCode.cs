@@ -9,6 +9,7 @@ namespace LockOnCode.VirtualMachine.Devices.CPU
         Bad = 0, //Catch errors around executing uninitialized memory
         Halt = 1, // Signal the rest of the machine to shutdown
         NOP = 2, // perform a null operation. Only increments ProgramCounter register
-        Move = 3
+        Move = 3,
+        Add = 4
     }
 }

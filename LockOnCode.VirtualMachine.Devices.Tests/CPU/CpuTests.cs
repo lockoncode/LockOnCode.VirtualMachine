@@ -106,6 +106,40 @@ namespace LockOnCode.VirtualMachine.Devices.Tests.CPU
             cpu.Memory.RetrieveAddress(196, 4).NonPortableCast<byte, int>()[0].ShouldBe(1000);
         }
 
+        [Fact]
+        public void ShouldBeAbleToMoveContentsOfARegisterToAnotherRegister()
+        {
+            var source = new List<IOperation>
+            {
+                OpCodes.Move(DataType.VectorOfByte, new VectorConstantOperand<byte>(Vector<byte>.One), new RegisterOperand(1)),
+
+                OpCodes.Move(DataType.VectorOfByte, new RegisterOperand(1), new RegisterOperand(2))
+            };
+
+            var cpu = BuildCpu(source);
+            RunProgram(cpu, source);
+
+            cpu.Registers[2][0].ShouldBe((byte)1);
+        }
+
+        [Fact]
+        public void ShouldBeAbleToAddTwoRegistersTogether()
+        {
+            var source = new List<IOperation>
+            {
+                //OpCodes.Move(DataType.VectorOfByte, new VectorConstantOperand<byte>(Vector<byte>.One), new RegisterOperand(1)),
+
+                //OpCodes.Move(DataType.VectorOfByte, new VectorConstantOperand<byte>(Vector<byte>.One), new RegisterOperand(2)),
+
+                OpCodes.Add(DataType.VectorOfByte, new RegisterOperand(1), new RegisterOperand(2),  new RegisterOperand(3))
+            };
+
+            var cpu = BuildCpu(source);
+            RunProgram(cpu, source);
+
+            cpu.Registers[3].ShouldBe(new Vector<byte>(2));
+        }
+
         private static Cpu BuildCpu(List<IOperation> source, ulong programBase = 0)
         {
             var memory = new SystemMemory(200L);
