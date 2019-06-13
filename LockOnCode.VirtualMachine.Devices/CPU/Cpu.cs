@@ -115,7 +115,7 @@ namespace LockOnCode.VirtualMachine.Devices.CPU
             return (byte)(4 + firstOperand.Size + secondOperand.Size + destinationOperandSize);
         }
 
-        private void AddOperands<>()
+        //private void AddOperands<>()
 
 
         private byte WriteToDestintion(byte operandType, Span<byte> span, Span<byte> value)
